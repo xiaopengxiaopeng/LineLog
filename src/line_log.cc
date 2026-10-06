@@ -1,7 +1,11 @@
 #include "line_log/line_log.h"
 
+#include <chrono>
 #include <cstdlib>
+#include <ctime>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #ifdef _WIN32
@@ -41,6 +45,24 @@ bool UseColor() {
     return no_color == nullptr || no_color[0] == '\0';
   }();
   return enabled;
+}
+
+std::string LocalTimeText() {
+  const auto now = std::chrono::system_clock::now();
+  const auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(
+                          now.time_since_epoch()) %
+                      1000;
+  const std::time_t seconds = std::chrono::system_clock::to_time_t(now);
+  std::tm calendar{};
+#ifdef _WIN32
+  localtime_s(&calendar, &seconds);
+#else
+  localtime_r(&seconds, &calendar);
+#endif
+  std::ostringstream text;
+  text << std::put_time(&calendar, "%Y-%m-%d %H:%M:%S") << '.' << std::setfill('0')
+       << std::setw(3) << static_cast<int>(millis.count());
+  return text.str();
 }
 
 const char* LevelColor(Level level) {
@@ -91,8 +113,9 @@ LineLog& LineLog::operator<<(const std::string& message) {
     if (UseColor()) {
       std::cout << LevelColor(current_level_);
     }
-    std::cout << "[" << level_to_string(current_level_) << "] " << current_file_
-              << ":" << std::to_string(current_line_) << ": ";
+    std::cout << "[" << level_to_string(current_level_) << "] " << LocalTimeText()
+              << " " << current_file_ << ":" << std::to_string(current_line_)
+              << ": ";
   }
   std::cout << message;
   return *this;

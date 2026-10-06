@@ -50,7 +50,7 @@ footer{padding:24px;text-align:center;color:var(--muted);font-size:13px;}
   <h3>不包含</h3>
   <ul>
     <li>宏，以及自动填入文件名和行号。这两项由调用方传入。</li>
-    <li>时间、线程号、缩进、写文件和锁。</li>
+    <li>线程号、缩进、写文件和锁。</li>
   </ul>
   <div class="callout">
     <strong>一次一条</strong>
@@ -73,11 +73,11 @@ int main() {
   return 0;
 }</code></pre>
   <p>运行 <code>bazel run //:line_log_demo</code>，标准输出是：</p>
-  <pre><code>[info] main.cc:10: 服务已启动
-[error] main.cc:12: 连接失败
-[warn] main.cc:13: 磁盘将满
-[debug] main.cc:14: 细节</code></pre>
-  <p>默认上限是 <code>Info</code> 时，第 11 行的 <code>Debug</code> 整行消失，没有空行。<code>"服务"</code> 与 <code>"已启动"</code> 之间没有空格。前缀末尾、正文之前有一个空格。</p>
+  <pre><code>[info] 2026-10-06 23:13:05.123 main.cc:10: 服务已启动
+[error] 2026-10-06 23:13:05.124 main.cc:12: 连接失败
+[warn] 2026-10-06 23:13:05.125 main.cc:13: 磁盘将满
+[debug] 2026-10-06 23:13:05.126 main.cc:14: 细节</code></pre>
+  <p>时间是打印这一行时的本地时间，格式为 <code>年-月-日 时:分:秒.毫秒</code>。上面的时刻只是例子。默认上限是 <code>Info</code> 时，第 11 行的 <code>Debug</code> 整行消失，没有空行。<code>"服务"</code> 与 <code>"已启动"</code> 之间没有空格。前缀末尾、正文之前有一个空格。</p>
   <h3>颜色</h3>
   <p>整行按级别着色，换行前恢复默认颜色。设置了非空的环境变量 <code>NO_COLOR</code> 时，输出保持纯文本。</p>
   <table>
