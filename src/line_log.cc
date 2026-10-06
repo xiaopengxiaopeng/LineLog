@@ -113,8 +113,9 @@ LineLog& LineLog::operator<<(const std::string& message) {
     if (UseColor()) {
       std::cout << LevelColor(current_level_);
     }
-    std::cout << "[" << level_to_string(current_level_) << "] " << LocalTimeText()
-              << " " << current_file_ << ":" << std::to_string(current_line_)
+    std::cout << "[" << LocalTimeText() << "] "
+              << "[" << level_to_string(current_level_) << "] "
+              << "[" << current_file_ << ":" << std::to_string(current_line_) << "] "
               << ": ";
   }
   std::cout << message;
