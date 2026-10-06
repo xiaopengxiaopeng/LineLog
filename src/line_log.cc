@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <thread>
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -65,6 +66,16 @@ std::string LocalTimeText() {
   return text.str();
 }
 
+std::string ThreadText() {
+#ifdef _WIN32
+  return std::to_string(GetCurrentThreadId());
+#else
+  std::ostringstream text;
+  text << std::this_thread::get_id();
+  return text.str();
+#endif
+}
+
 const char* LevelColor(Level level) {
   switch (level) {
     case Level::Error:
@@ -115,6 +126,7 @@ LineLog& LineLog::operator<<(const std::string& message) {
     }
     std::cout << "[" << LocalTimeText() << "] "
               << "[" << level_to_string(current_level_) << "] "
+              << "[" << ThreadText() << "] "
               << "[" << current_file_ << ":" << std::to_string(current_line_) << "] "
               << ": ";
   }

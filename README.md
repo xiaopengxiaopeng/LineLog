@@ -10,7 +10,7 @@ Messages finer than the shared maximum level produce no output, including the ne
 logx::LineLog(logx::Level::Info, "main.cc", 10) << "服务" << "已启动" << logx::EndLine{};
 ```
 
-That prints `[info] 2026-10-06 23:13:05.123 main.cc:10: 服务已启动`, using the local time when the line is written. The two strings are concatenated with nothing between them. Each line is colored by level: error red, warn yellow, info green, debug cyan. Set `NO_COLOR` to print plain text. Behavior and the demo output are described in [docs/spec.html](docs/spec.html).
+That prints `[2026-10-06 23:13:05.123] [info] [18432] [main.cc:10] : 服务已启动`. The brackets are local time, level, thread id, then file and line. The two strings are concatenated with nothing between them. Each line is colored by level: error red, warn yellow, info green, debug cyan. Set `NO_COLOR` to print plain text. Behavior and the demo output are described in [docs/spec.html](docs/spec.html).
 
 ## Build
 
