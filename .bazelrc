@@ -1,0 +1,30 @@
+# Pin Bzlmod (default in Bazel 7+, kept explicit).
+common --enable_bzlmod
+
+# Apply windows/linux/macos sections automatically.
+build --enable_platform_specific_config
+
+# C++17.
+build:windows --cxxopt=/std:c++17
+build:windows --host_cxxopt=/std:c++17
+build:windows --cxxopt=/W4
+build:windows --enable_runfiles
+build:windows --action_env=VSLANG=1033
+build:windows --cxxopt=/utf-8
+build:windows --host_cxxopt=/utf-8
+
+build:linux --cxxopt=-std=c++17
+build:linux --host_cxxopt=-std=c++17
+build:linux --cxxopt=-Wall
+build:linux --cxxopt=-Wextra
+
+build:macos --cxxopt=-std=c++17
+build:macos --host_cxxopt=-std=c++17
+build:macos --cxxopt=-Wall
+build:macos --cxxopt=-Wextra
+
+test --test_output=errors
+test --test_summary=detailed
+
+# Machine-local settings (Visual Studio path, output root). Not published.
+try-import %workspace%/user.bazelrc

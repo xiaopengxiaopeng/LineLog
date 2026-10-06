@@ -1,0 +1,9 @@
+/bazel-*
+/user.bazelrc
+/MODULE.bazel.lock
+.vs/
+.idea/
+.cache/
+*.swp
+*.swo
+compile_commands.json
